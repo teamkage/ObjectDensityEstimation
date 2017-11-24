@@ -52,16 +52,16 @@ Convergence video
 <video id="sampleMovie" src="data/epoch.mp4" controls></video>
 
 
-##Goal?
+## Goal?
 How was it achieved, explain the weighted density approach. Show good peaks in center approach. Show smoothness in patch
 
-##Perspective Distortion improvement:
+## Perspective Distortion improvement:
 
-##Applications:
+## Applications:
 Counting, tracking, detection.
 
-##Future research:
+## Future research:
 Semi supervised, flownet
 
-##Reference:
+## Reference:
 

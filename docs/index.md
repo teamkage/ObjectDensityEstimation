@@ -28,7 +28,7 @@ This is where the concept of object counting comes into the picture. Since, we f
 
 ## **Problem Statement**
 We started our work by understanding the model from [2], which we refer to as the Base Model, which has shown state of the art results for many counting datasets. The base model doesn't preserve the spatial structure of the objects in the image. Although, we progressed to build a model which is entirely different than the Base Model, based on our goal and evolution of the project. The base model, like many others in the domain, are optmized for counting performance. They don't preserve the location information of the objects of interest. The base model has 2 pooling layers and the size of output density of the network is reduced by 4. This density is then scaled up to match the dimension of the input patch. These overlapping patched are then averaged over to get the final density map. This resize and average operation of the density patches leads to either damping of the guassian peak, or overestimating the peak, by maintaining the count. This is shown in the figure below. If the Guassian in red is the true guassian, then the estimated density might be any of green, blue or yellow. But, it is important to note that the area under the density is still one and hence it doesn't affect count performance. Another problem is the lose of spatial information of the object because of resize and average operation.
-<p style="text-align:center"><img src="data/guass.png"></p>
+<p style="text-align:center"><img src="data/guass.png" width="270" height="200"></p>
 <p style="text-align:center"><img src="data/base-prob.png"></p>
 
 ## **Our Approach**
@@ -76,15 +76,20 @@ The ouput of the features extraction Convolution layers are fed to sepearate fc 
 
 <p style="text-align:center"><img src="data/loss-1.png"></p>
 
-<p style="text-align:center"><img src="data/loss-2.png"></p>
+<p style="text-align:center"><img src="data/loss-2.png"></p>      
 
+
+<h4 align="center"><b>Dual loss convergence (Video)</b></h4>
 <video id="epoch" height="auto" width="740" src="data/epoch.mp4" controls></video>
 
 ## **Testing**
 <p style="text-align:center"><img src="data/test.png"></p>
 
 ## Results
-<p style="text-align:center"><img src="data/table.png"></p>
+<p style="text-align:center"><img src="data/table.png" width="475" height="400"></p>
+
+
+<h4 align="center"><b>Video Summary (Video)</b></h4>      
 <video id="results" height="auto" width="740" src="data/results.mp4" controls></video>
 
 

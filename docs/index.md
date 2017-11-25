@@ -23,11 +23,6 @@ We will talk about how we structure our data as it is important to understand th
   </tr>
 </table> 
 
-# <p style="text-align:center"><img src="data/image-1.png"></p>
-# <p style="text-align:center"><img src="data/image-1-dot.png"></p>
-# <p style="text-align:center"><img src="data/image-1-gt.png"></p>
-# <p style="text-align:center"><img src="data/image-1-gt-3d.png"></p>
-
 This is where the concept of object counting comes into the picture. Since, we fit one probability density per object, the sum of all pixels in the density image would be equal to the number of objects in the image. Hence, we formulate our problem based on the estimation of these densities, the accuracy of their peaks, the accuracy of their location and the count metric.
 
 ## **Problem Statement**

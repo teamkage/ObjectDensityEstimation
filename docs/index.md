@@ -60,54 +60,71 @@ We employed 2 different approaches to minimizing the dual losses.
 In this method, during training, the losses were iteratively switched every X iterations. Even for different values for X, both losses continued to fight eachother and didn't converge. By convergence, we mean to say that while one loss was being minimized the other one increased and this happened continously during training.
 
 #### **Combined loss training**
-Here, both losses were combined using a weighted sum. Since, the output is a probability density value, we deal with losses which are very low to start with. Since, the patch-wise loss takes in 18x18 patch, the correspoding loss is higher than the center-wise loss which is just a L2 norm of the predicted center density and center ground truth density, which is in orders less than the patch-wise loss. This results in the network minimizing the patch-wise loss more than the center-wise loss, which is not desired since, its the minimization of the center-wise loss that gives us accurate peaks and spatial location. Although, scaling center-wise loss improved the situation, the scale value had to be large and it didn't make it robous enough for other datasets.
+Here, both losses were combined using a weighted sum. Since, the output is a probability density value, we deal with losses which are very low to start with. Since, the patch-wise loss takes in 18x18 patch, the correspoding loss is higher than the center-wise loss which is just a L2 norm of the predicted center density and center ground truth density, which is in orders less than the patch-wise loss. This results in the network minimizing the patch-wise loss more than the center-wise loss, which is not desired since, its the minimization of the center-wise loss that gives us accurate peaks and spatial location. Although, scaling center-wise loss improved the situation, the scale value had to be large and it didn't make it robous enough for other datasets. Model trained with this performed badly on the frames where there was high number objects with high overlap between them.
 
 In general, what was observed was that both losses tried to undo each other in every epoch and didn't give the feeling of convergence. We noticed that the shared fc layers might be getting undone by each loss. Hence, we tried with having separate fc layers for each losses, so that they don't interfere with eachother and also converge. This lead to our next and final model.
 
 ## **Network #3: Final Architecture**
-The ouput of the features extraction Convolution layers are fed to sepearate fc layers for both losses. This ensure that the fc layers of 2 losses are trainined separately and help achieve convergence. We train our network with iterative loss switching approach, we switch losses every 3 iterations. We will show later how this helps our losses to converge where they done fight. The patch-wise loss trains convolution layers help extract global patch features, while the center-wise loss help extract the local feature at the center. The sepearate fc layers then help in predicting the density.
+The ouput of the features extraction Convolution layers are fed to sepearate fc layers for both losses. This ensure that the fc layers of 2 losses are trained separately and help achieve convergence. We train our network with iterative loss switching approach, we switch losses every 3 iterations. We will show later how this helps our losses to converge. The patch-wise loss trains convolution layers help extract global patch features, while the center-wise loss help extract the local feature at the center. The sepearate fc layers then help in predicting the density.
 <p style="text-align:center"><img src="data/final-model.png"></p>
 
 ## **Training**
 <p style="text-align:center"><img src="data/train.png"></p>
+Patches of size 37x37 are densely extracted from the image. The dot annotated image is convolved using a gaussian kernel. This can be any probability density function, even sum of two densities, as long as they are normalized such that the integration of all desnsity values of any object equals to one. The density patches corresponding to the image patches are then extracted from the density image (shown in green boxes). Since, we have two loss functions, the center pixel of these density patches are also extracted to train center-wise loss (shown in red). Later we show how we can extract any nxn grid around the center depending on how smooth we want our estimation to be by sacrificing peak accuracy.
 
 ## **Training with Dual Loss**
-<p style="text-align:center"><img src="data/loss.png"></p>
+<p style="text-align:center"><img src="data/loss.png"></p>  
+We have two loss functions. They are minimized in an iterative fashion by switching the losses every 3 iterations (emperically chosen). We kick start the training with the patch-wise loss, to train the model to learn the global density in the patch and then switch to localized center density after 3 iterations, and iterate.
 
 <p style="text-align:center"><img src="data/loss-1.png"></p>
 
+Here, we show the evolution of the predicted density with epochs. As mentioned before, training is kickstarted with patch-wise loss and hence you can see the structure emerging on the patch-wise predicted density after the first epoch. This continues to evolve until 3 iterations. Even though the center-wise loss has been trained yet, you can still see some minute structure emerging from the center-wise predicted density. At epoch 4, the once the training starts minimizing center-wise loss, the predicted density structure gets more clear. This continues for 30 epochs.
 <p style="text-align:center"><img src="data/loss-2.png"></p>      
 
+Below is the video showing the evolution for the whole 30 epochs. You can notice how the counting error keeps flipping based on which loss was being trained, as the losses fight it out. But, later the model converges to an stable training error. This is where the separate fc layers for each loss help. They help reduce the influence of the one loss over the other. This method works because both losses are correlated in some way, ie they are sort of achieving the same thing in a different way. Hence, the network learns that there is way to minimize both the losses without clashing.  
 
 <h4 align="center"><b>Dual loss convergence (Video)</b></h4>
 <video id="epoch" height="auto" width="740" src="data/epoch.mp4" controls></video>
 
 ## **Testing**
+During testing, we extract patches of the same size of 37x37 in a sliding window fashion. These patches are then input the network and predict both the global density and local center density. The global patch density, which is of 18x18 is resized to input size and averaged over all overlapping density patches. But, there is no resizing involved with the center-wise predicted density. Since, the density is predicted at every pixel, the size of the final density image is of the same size as the original image. Hence, the network outputs 2 densitities, one with patch-wise density and then the other with center-wise density.  
+
 <p style="text-align:center"><img src="data/test.png"></p>
 
-## Results
-<p style="text-align:center"><img src="data/table.png" width="475" height="400"></p>
+## **Results**
 
-
-<h4 align="center"><b>Video Summary (Video)</b></h4>      
+Below video showcases the perfomance of our model in comparision with the base model from [2]. We present brief detail in the later section. The weighted density in the last column is the weighted sum of patch-wise and center-wise density, with higher weight to the center-wise density. This was done to make the center-wise density more smooth. Althouth the center-wise density is the one which has accurate peaks and preserves spatial information, achieves the best results on UCSD maximal test dataset.
+<h4 align="center"><b>Result Summary (Video)</b></h4>      
 <video id="results" height="auto" width="740" src="data/results.mp4" controls></video>
 
+<p style="text-align:center"><img src="data/table.png" width="475" height="400"></p>
 
-## Goal?
+**NOTE**  
+
+  1. The above results were achieved on UCSD maximal test dataset. Trained with frames 600:5:1400 and test data was same as mentioned in [2]  
+
+  2. Because of the sliding window approach, 18 pixels (half of patch size) were skipped around the border. The only count it would miss are the ones entering the frame in the bottom-left corner of the screen. The ground truth numbers were adjusted accordingly to ensure fair comparision. This needs to be fixed, but shouldn't cause our error to increase too much.  
+
+  3. All the other methods mentioned in the table above test their model on a varied set of datasets. We limited our experiments to UCSD pedestrian dataset, and above listed comparison are for the same dataset. The performance of our model for other datasets still remains to be experimented.
+
+
+## **Analysis**
+
+From the below picture, it can be seen that the patch-wise density is more smooth but has inaccurate peaks due to resize and averaging patch densities. The center-wise density is more rough, but the peaks closely resemble the ones from ground truth density, it also preserves the location to acceptable accuracy. The weighted density is just a smoother version of center-wise density. It is obtained by weighted average of patch-wise and center-wise density, with the latter having more weight. This is one of the attempt to make use of both densitites. Although, estimating the center-wise density is much faster than estimating the patch density.  
 <p style="text-align:center"><img src="data/summ-res.png"></p>
 <p style="text-align:center"><img src="data/analysis.png"></p>
 <p style="text-align:center"><img src="data/final-model-generic.png"></p>
 How was it achieved, explain the weighted density approach. Show good peaks in center approach. Show smoothness in patch
 
-## Perspective Distortion improvement:
+## **Perspective Distortion improvement**
 <p style="text-align:center"><img src="data/distort.png"></p>
 <p style="text-align:center"><img src="data/multi-scale.png"></p>
 
-## Applications:
+## **Applications**
 <p style="text-align:center"><img src="data/count.png"></p>
 <p style="text-align:center"><img src="data/track.png"></p>
 
-## Reference:
+## **Reference**
 
 [1] Victor Lempitsky and Andrew Zisserman. Learning To Count Objects in Images. Advances in Neural Information Processing Systems, 2010.  
 [2] Daniel O ̃noro-Rubio and Roberto J. L ́opez-Sastre. Towards perspective-free object counting with deep learning. ECCV, 2016.  

@@ -1,9 +1,9 @@
 ---
 layout: default
 ---
-# Object Density Estimation
+<h1 align="center"><b>Object Density Estimation</b></h1> 
 
-### ***Team Kage***
+<h4 align="center">Deepak GR, Aashish Sood, Akshay Deshpande, Arvind Hudli </h4>
 
 ## **Introduction**
 
@@ -14,11 +14,12 @@ We will talk about how we structure our data as it is important to understand th
 
  <table style="width:100%">
   <tr>
-    <th><img src="data/image-1.png"></th>
-    <th><img src="data/image-1-gt.png"></th>
+    <td><img src="data/image-1.png"></td>
+    <td><img src="data/image-1-dot.png"></td>
+
   </tr>
   <tr>
-    <td><img src="data/image-1-dot.png"></td>
+    <td><img src="data/image-1-gt.png"></td>
     <td><img src="data/image-1-gt-3d.png"></td>
   </tr>
 </table> 
@@ -89,7 +90,7 @@ The ouput of the features extraction Convolution layers are fed to sepearate fc 
 
 ## Goal?
 <p style="text-align:center"><img src="data/summ-res.png"></p>
-<p style="text-align:center"><img src="data/analysis.png"></p>
+<p style="text-align:center"><img src="data/analysis.png" width="740" height="500"></p>
 <p style="text-align:center"><img src="data/final-model-generic.png"></p>
 How was it achieved, explain the weighted density approach. Show good peaks in center approach. Show smoothness in patch
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<h1 align="center"><b>Object Density Estimation</b></h1> 
+<h1 align="center"><b>Object Density Estimation</b></h1>
 
 <h4 align="center">Deepak GR, Aashish Sood, Akshay Deshpande, Arvind Hudli </h4>
 
@@ -22,7 +22,7 @@ We will talk about how we structure our data as it is important to understand th
     <td><img src="data/image-1-gt.png"></td>
     <td><img src="data/image-1-gt-3d.png"></td>
   </tr>
-</table> 
+</table>
 
 This is where the concept of object counting comes into the picture. Since, we fit one probability density per object, the sum of all pixels in the density image would be equal to the number of objects in the image. Hence, we formulate our problem based on the estimation of these densities, the accuracy of their peaks, the accuracy of their location and the count metric.
 
@@ -90,7 +90,7 @@ The ouput of the features extraction Convolution layers are fed to sepearate fc 
 
 ## Goal?
 <p style="text-align:center"><img src="data/summ-res.png"></p>
-<p style="text-align:center"><img src="data/analysis.png" width="740" height="500"></p>
+<p style="text-align:center"><img src="data/analysis.png"></p>
 <p style="text-align:center"><img src="data/final-model-generic.png"></p>
 How was it achieved, explain the weighted density approach. Show good peaks in center approach. Show smoothness in patch
 

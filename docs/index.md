@@ -36,12 +36,12 @@ At a high level, we propose a sliding window based approach to address the probl
 We consider UCSD Pedestrian dataset and our object of interest are the people walking on the walkway.
 
 
-## **Network #1: Initial model**
+## **Network #1: Our First model**
 We start off with a basic sliding window model and transitioned to our final model based on the result of our experiments. Our initial model predicts the density at every pixel in a sliding window fashion. A patch is extracted from the input image and it is fed as input to the network. The size of the image patch is chosen based on the size of the object, whose densities we are trying to estimate. For every image patch, we predict the density of the image patch at the center of the patch. We slide over the image to predict the densities of all the pixels in the image. The size of the image patch was odd since the center is well defined.
 
 <p style="text-align:center"><img src="data/center-wise_single-loss.png"></p>
 
-### **Initial model shortcomings**
+### **First model shortcomings**
 Although the model looks simple, it was very hard to train. Consider the following samples,
 
 <p style="text-align:center"><img src="data/problem1.png"></p>
@@ -83,7 +83,7 @@ Here, we show the evolution of the predicted density with epochs. As mentioned b
 
 Below is the video showing the evolution for the whole 30 epochs. You can notice how the counting error keeps flipping based on which loss was being trained, as the losses fight it out. But, later the model converges to a stable training error. This is where the separate fc layers for each loss help. They help reduce the influence of the one loss over the other. This method works because both losses are correlated in some way, i.e. they are sort of achieving the same thing in a different way. Hence, the network learns that there is way to minimize both the losses without clashing.  
 
-<h4 align="center"><b>Dual loss convergence (Video)</b></h4>
+<h4 align="center"><b>Dual loss convergence <span style="color:red">(Video)</span></b></h4>
 <video id="epoch" height="auto" width="740" src="data/epoch.mp4" controls></video>
 
 ## **Testing**
@@ -94,7 +94,7 @@ During testing, we extract patches of the same size of 37x37 in a sliding window
 ## **Results**
 
 Below video showcases the performance of our model in comparison with the base model from [2]. We present brief detail in the later section. The weighted density in the last column is the weighted sum of patch-wise and center-wise density, with higher weight to the center-wise density. This was done to make the center-wise density more smooth. Although the center-wise density is the one which has accurate peaks and preserves spatial information, achieves the best results on UCSD maximal test dataset.
-<h4 align="center"><b>Result Summary (Video)</b></h4>      
+<h4 align="center"><b>Result Summary <span style="color:red">(Video)</span></b></h4>      
 <video id="results" height="auto" width="740" src="data/results.mp4" controls></video>
 
 <p style="text-align:center"><img src="data/table.png" width="475" height="400"></p>

@@ -37,7 +37,7 @@ We consider UCSD Pedestrian dataset and our object of interest are the people wa
 
 
 ## **Network #1: Initial model**
-We start off with a basic model and transitioned to our final model based on the result of our experiments. Our initial model predicts the density at every pixel in a sliding window fashion. A patch is extracted from the input image and it is fed as input to the network. The size of the image patch is chosen based on the size of the object, whose densities we are trying to estimate. For every image patch, we predict the density of the image patch at the center of the patch. We slide over the image to predict the densities of all the pixels in the image. The size of the image patch was odd since the center is well defined.
+We start off with a basic sliding window model and transitioned to our final model based on the result of our experiments. Our initial model predicts the density at every pixel in a sliding window fashion. A patch is extracted from the input image and it is fed as input to the network. The size of the image patch is chosen based on the size of the object, whose densities we are trying to estimate. For every image patch, we predict the density of the image patch at the center of the patch. We slide over the image to predict the densities of all the pixels in the image. The size of the image patch was odd since the center is well defined.
 
 <p style="text-align:center"><img src="data/center-wise_single-loss.png"></p>
 

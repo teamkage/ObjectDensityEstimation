@@ -84,7 +84,7 @@ Here, we show the evolution of the predicted density with epochs. As mentioned b
 Below is the video showing the evolution for the whole 30 epochs. You can notice how the counting error keeps flipping based on which loss was being trained, as the losses fight it out. But, later the model converges to a stable training error. This is where the separate fc layers for each loss help. They help reduce the influence of the one loss over the other. This method works because both losses are correlated in some way, i.e. they are sort of achieving the same thing in a different way. Hence, the network learns that there is way to minimize both the losses without clashing.  
 
 <h4 align="center"><b>Dual loss convergence <span style="color:red">(Video)</span></b></h4>
-<iframe width="740" height="568" src="https://www.youtube.com/embed/QH7FkekYk2M" frameborder="0" gesture="media" allowfullscreen></iframe>
+<iframe width="740" height="569" src="https://www.youtube.com/embed/QH7FkekYk2M?rel=0&amp;showinfo=0" frameborder="0" gesture="media" allowfullscreen=""></iframe>
 <!--<div style="border:1px solid black"><video id="epoch" height="auto" width="738" src="data/epoch.mp4" controls onclick="this.paused ? this.play() : this.pause();"></video></div>-->
 
 ## **Testing**
@@ -96,7 +96,7 @@ During testing, we extract patches of the same size of 37x37 in a sliding window
 
 Below video showcases the performance of our model in comparison with the base model from [2]. We present brief detail in the later section. The weighted density in the last column is the weighted sum of patch-wise and center-wise density, with higher weight to the center-wise density. This was done to make the center-wise density more smooth. Although the center-wise density is the one which has accurate peaks and preserves spatial information, achieves the best results on UCSD maximal test dataset.
 <h4 align="center"><b>Result Summary <span style="color:red">(Video)</span></b></h4>      
-<iframe width="740" height="590" src="https://www.youtube.com/embed/FVwy_JU3vbA" frameborder="0" gesture="media" allowfullscreen></iframe>
+<iframe width="740" height="592" src="https://www.youtube.com/embed/FVwy_JU3vbA?rel=0&amp;showinfo=0" frameborder="0" gesture="media" allowfullscreen></iframe>
 <!--<div style="border:1px solid black"><video id="results" height="auto" width="738" src="data/results.mp4" controls onclick="this.paused ? this.play() : this.pause();"></video></div>-->
 
 <p style="text-align:center"><img src="data/table.png" width="475" height="400"></p>

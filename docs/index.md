@@ -54,7 +54,7 @@ In the above samples, there are people in the patch, but the density at the cent
 
 ## **Network #2: Improved**
 In this improved network, we optimize 2 losses. One for the global density of the patch itself and another one for the local density of the patch at its center. Given a patch, we estimate the density of the whole patch to a size 18x18, we call this patch-wise density. The other fully-connected path in the network estimates the density at the center, we call this center-wise density. The patch-wise loss trains our the network to extract better features and its fc layers perform the final estimation. This network improved our results but still had its shortcomings. We discuss them in the next section.
-<p style="text-align:center"><img src="data/dual-loss_shared-fc.png"></p>
+<p style="text-align:center"><img src="data/dual-loss_shared-fc.png"></p>  
 <p style="text-align:center"><img src="data/loss.png"></p>
 
 ### **Improved model shortcomings**
